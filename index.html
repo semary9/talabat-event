@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Off the Clock | Private proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;background:#411517;color:#F4EDE3;font-family:'Poppins',Arial,sans-serif;padding:24px}
+main{width:min(420px,100%)}
+h1{font-size:56px;font-weight:900;letter-spacing:-.05em;line-height:.95;margin-top:28px}
+p{font-size:17px;line-height:1.55;color:#E9DCCB;margin-top:14px}
+label{display:block;font-size:15px;font-weight:600;margin-top:36px}
+input{width:100%;margin-top:8px;font:inherit;font-size:18px;padding:14px 16px;border-radius:14px;border:2px solid #6B3A36;background:#2C0E0F;color:#F4EDE3}
+input:focus{outline:none;border-color:#FF5900}
+button{margin-top:14px;width:100%;font:inherit;font-size:17px;font-weight:600;padding:14px;border:0;border-radius:999px;background:#FF5900;color:#fff;cursor:pointer}
+button:focus-visible{outline:3px solid #CFFF00;outline-offset:3px}
+button[disabled]{opacity:.6;cursor:wait}
+.err{color:#FFB27A;font-size:15px;margin-top:12px;min-height:22px}
+small{display:block;margin-top:40px;font-size:13px;color:#C9B6A6}
+</style>
+</head>
+<body>
+<main>
+ <svg viewBox="0 0 120 120" width="88" height="88" aria-hidden="true"><circle cx="60" cy="60" r="55" fill="#FF5900" stroke="#F4EDE3" stroke-width="9"/><line x1="60" y1="60" x2="60" y2="18" stroke="#F4EDE3" stroke-width="7" stroke-linecap="round"/><line x1="60" y1="60" x2="84" y2="74" stroke="#F4EDE3" stroke-width="9" stroke-linecap="round"/><circle cx="60" cy="60" r="6" fill="#F4EDE3"/></svg>
+ <h1>Off the Clock</h1>
+ <p>A private proposal for talabat's year-end at Nikki Beach Dubai.</p>
+ <form id="f">
+  <label for="code">Access code</label>
+  <input id="code" name="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required>
+  <div class="err" id="err" role="alert"></div>
+  <button id="go" type="submit">Open the proposal</button>
+ </form>
+ <small>Prepared for talabat UAE by notion. Confidential.</small>
+</main>
+<script>
+const ITER = 310000;
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+let payload = null;
+async function getPayload(){ if (!payload) { const r = await fetch('site.bin', {cache: 'no-store'}); if (!r.ok) throw new Error('load'); payload = b64((await r.text()).trim()); } return payload; }
+async function open_(code){
+  const d = await getPayload(), salt = d.slice(0, 16), iv = d.slice(16, 28), ct = d.slice(28);
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(code), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({name: 'PBKDF2', salt, iterations: ITER, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
+  const html = new TextDecoder().decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv}, key, ct));
+  try { sessionStorage.setItem('otc', code); } catch (e) {}
+  document.open(); document.write(html); document.close();
+}
+const f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
+f.addEventListener('submit', async e => {
+  e.preventDefault(); err.textContent = ''; go.disabled = true; go.textContent = 'Opening';
+  try { await open_(document.getElementById('code').value.trim()); }
+  catch (x) { go.disabled = false; go.textContent = 'Open the proposal';
+    err.textContent = x.message === 'load' ? 'The proposal could not load. Check your connection and try again.' : 'That code didn\'t work. Check the code we sent you and try again.'; }
+});
+document.getElementById('code').addEventListener('input', () => { err.textContent = ''; });
+(async () => { let c = null; try { c = sessionStorage.getItem('otc'); } catch (e) {} if (c) { try { await open_(c); } catch (e) {} } })();
+</script>
+</body>
+</html>
