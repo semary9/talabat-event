@@ -2,63 +2,211 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFD9A0">
 <title>Off the Clock | Private proposal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
+:root{--orange:#FF5900;--brown:#411517;--night:#1E0809;--cream:#F4EDE3;--lime:#CFFF00}
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;background:#411517;color:#F4EDE3;font-family:'Poppins',Arial,sans-serif;padding:24px}
-main{width:min(420px,100%)}
-h1{font-size:56px;font-weight:900;letter-spacing:-.05em;line-height:.95;margin-top:28px}
-p{font-size:17px;line-height:1.55;color:#E9DCCB;margin-top:14px}
-label{display:block;font-size:15px;font-weight:600;margin-top:36px}
-input{width:100%;margin-top:8px;font:inherit;font-size:18px;padding:14px 16px;border-radius:14px;border:2px solid #6B3A36;background:#2C0E0F;color:#F4EDE3}
-input:focus{outline:none;border-color:#FF5900}
-button{margin-top:14px;width:100%;font:inherit;font-size:17px;font-weight:600;padding:14px;border:0;border-radius:999px;background:#FF5900;color:#fff;cursor:pointer}
-button:focus-visible{outline:3px solid #CFFF00;outline-offset:3px}
-button[disabled]{opacity:.6;cursor:wait}
-.err{color:#FFB27A;font-size:15px;margin-top:12px;min-height:22px}
-small{display:block;margin-top:40px;font-size:13px;color:#C9B6A6}
+html,body{height:100%}
+body{min-height:100vh;min-height:100svh;font-family:'Poppins',Arial,sans-serif;color:var(--brown);overflow-x:hidden;background:#FFD9A0}
+
+/* the sky: a sunset that holds at golden hour */
+.sky{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(180deg,#FFE3B8 0%,#FFD093 38%,#FFB366 62%,#FF8A3D 76%);transition:filter 1.2s ease}
+.sun{position:absolute;left:72%;top:30%;width:min(46vmin,460px);aspect-ratio:1;translate:-50% 0;border-radius:50%;background:radial-gradient(circle,#FFF6DC 0 52%,#FFE7B0 70%,#FFD08A 100%);box-shadow:0 0 120px 40px rgba(255,236,190,.55);animation:rise 2.6s cubic-bezier(.2,.75,.15,1) both}
+.sun:after{content:"";position:absolute;inset:-12%;border-radius:50%;border:2px solid rgba(255,244,214,.75);animation:halo 3.8s ease-out infinite}
+@keyframes rise{from{transform:translateY(22vh);opacity:.3}to{transform:none;opacity:1}}
+@keyframes halo{from{transform:scale(.88);opacity:.9}to{transform:scale(1.3);opacity:0}}
+.rays{position:absolute;left:72%;top:30%;width:min(150vmin,1500px);aspect-ratio:1;translate:-50% -34%;border-radius:50%;background:repeating-conic-gradient(rgba(255,255,255,.16) 0 6deg,transparent 6deg 16deg);-webkit-mask:radial-gradient(circle,#000 0 18%,transparent 62%);mask:radial-gradient(circle,#000 0 18%,transparent 62%);animation:spin 90s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+.sea{position:absolute;left:0;right:0;bottom:0;height:26vh;background:var(--brown)}
+.sea:before{content:"";position:absolute;left:0;right:0;top:0;height:60%;background:repeating-linear-gradient(180deg,rgba(255,200,140,.18) 0 2px,transparent 2px 16px);-webkit-mask:linear-gradient(180deg,#000,transparent);mask:linear-gradient(180deg,#000,transparent);animation:swell 4s linear infinite}
+@keyframes swell{to{background-position-y:16px}}
+.wv{position:absolute;left:0;right:0;height:22px;overflow:hidden}
+.wv i{position:absolute;inset:0 -160px 0 0;background:var(--brown);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Cpath d='M0 12 Q40 0 80 12 T160 12 V22 H0Z'/%3E%3C/svg%3E") repeat-x 0 0/160px 22px;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 22'%3E%3Cpath d='M0 12 Q40 0 80 12 T160 12 V22 H0Z'/%3E%3C/svg%3E") repeat-x 0 0/160px 22px;animation:wvx 7s linear infinite}
+.wv i+i{top:7px;opacity:.5;animation-duration:11s;animation-direction:reverse}
+.sea .wv{top:-21px}
+@keyframes wvx{to{transform:translateX(-160px)}}
+.glint{position:absolute;left:72%;top:0;width:min(30vmin,300px);height:100%;translate:-50% 0;background:repeating-linear-gradient(180deg,rgba(255,226,170,.55) 0 3px,transparent 3px 13px);-webkit-mask:radial-gradient(ellipse 50% 70% at 50% 0,#000,transparent);mask:radial-gradient(ellipse 50% 70% at 50% 0,#000,transparent);animation:shim 2.4s ease-in-out infinite alternate}
+@keyframes shim{from{opacity:.5;transform:scaleX(.8)}to{opacity:1;transform:scaleX(1.1)}}
+.birds{position:absolute;top:9%;left:52%;right:0;height:16%;pointer-events:none;overflow:hidden}
+.birds svg{position:absolute;left:0;width:30px;height:12px;color:var(--brown);animation:fly 24s linear infinite}
+.birds svg path{animation:flap .5s ease-in-out infinite alternate;transform-origin:50% 60%;transform-box:fill-box}
+@keyframes fly{from{transform:translateX(-40px)}to{transform:translateX(50vw)}}
+@keyframes flap{to{transform:scaleY(.45)}}
+
+/* layout */
+.page{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;padding:max(24px,env(safe-area-inset-top)) clamp(20px,5vw,72px) calc(26vh + 18px)}
+.top{display:flex;align-items:center;gap:12px;animation:fade .9s ease .2s both}
+.top img.t{height:30px}
+.top img.n{height:34px}
+.top span{font-size:18px;font-weight:400;color:#7A5A52}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;max-width:760px;padding:40px 0 24px}
+.eyebrow{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--brown);background:rgba(255,250,242,.7);padding:6px 14px 6px 10px;border-radius:999px;animation:fade .9s ease .35s both}
+.eyebrow i{width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(255,89,0,.6);animation:ping 1.8s ease-out infinite}
+@keyframes ping{to{box-shadow:0 0 0 10px rgba(255,89,0,0)}}
+h1{margin-top:20px;font-size:clamp(58px,10.5vw,148px);font-weight:900;line-height:.86;letter-spacing:-.055em;display:flex;flex-wrap:wrap;column-gap:.2em;word-spacing:.12em}
+h1 .row{display:flex;align-items:flex-end;white-space:nowrap;animation:up 1.1s cubic-bezier(.2,.75,.15,1) both}
+h1 .r2{animation-delay:.12s}
+@keyframes up{from{opacity:0;transform:translateY(.35em)}to{opacity:1;transform:none}}
+.clock{width:.86em;height:.86em;flex:none;transform:translateY(-.02em)}
+.clock .hand{stroke:var(--brown);stroke-linecap:round;transform-origin:60px 60px}
+.sub{margin-top:24px;font-size:clamp(18px,1.8vw,23px);line-height:1.45;font-weight:600;max-width:30em;animation:fade .9s ease .5s both}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;animation:fade .9s ease .62s both}
+.meta span{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;background:rgba(255,250,242,.55);padding:7px 14px;border-radius:999px;white-space:nowrap}
+.meta svg{width:16px;height:16px;fill:none;stroke:var(--orange);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* the gate */
+.gate{margin-top:34px;width:min(560px,100%);background:rgba(255,250,242,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:26px;padding:22px 22px 18px;box-shadow:0 24px 60px rgba(65,21,23,.18);animation:fadeup 1s cubic-bezier(.2,.75,.15,1) .75s both}
+@keyframes fadeup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.gate label{display:block;font-size:15px;font-weight:700}
+.row2{display:flex;gap:10px;margin-top:10px}
+.field{position:relative;flex:1;min-width:0}
+input{width:100%;font:inherit;font-size:20px;font-weight:700;letter-spacing:.14em;padding:14px 52px 14px 18px;border-radius:16px;border:2px solid #E3CFB8;background:#fff;color:var(--brown);transition:border-color .2s,box-shadow .2s}
+input::placeholder{letter-spacing:0;font-weight:400;color:#B29A8C}
+input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,89,0,.18)}
+.eye{position:absolute;right:6px;top:50%;translate:0 -50%;width:44px;height:44px;border:0;background:none;border-radius:12px;color:#7A5A52;cursor:pointer;display:grid;place-items:center}
+.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.eye:focus-visible{outline:3px solid var(--orange)}
+button.go{flex:none;display:inline-flex;align-items:center;gap:10px;font:inherit;font-size:17px;font-weight:700;padding:0 24px;min-height:56px;border:0;border-radius:16px;background:var(--brown);color:var(--cream);cursor:pointer;transition:transform .2s,background .2s}
+button.go:hover{background:#5A231F;transform:translateY(-2px)}
+button.go:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+button.go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+button.go:hover svg{transform:translateX(3px)}
+button.go[disabled]{cursor:wait;opacity:.85}
+.err{color:#B43E00;font-size:15px;font-weight:600;min-height:22px;margin-top:10px}
+.shake{animation:shake .45s ease}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.note{font-size:13px;color:#7A5A52;margin-top:2px}
+footer{position:fixed;left:0;right:0;bottom:max(16px,env(safe-area-inset-bottom));text-align:center;font-size:13px;color:#C9B6A6;padding:0 20px}
+
+/* opening: the clock spins forward and the sun sets into the proposal */
+.sun{transition:translate 1.1s cubic-bezier(.6,0,.4,1)}
+.opening .sun{translate:-50% 46vh}
+.opening .sky{filter:saturate(1.2) brightness(.9)}
+.opening .page{transition:opacity .6s ease .45s;opacity:0}
+.veil{position:fixed;inset:0;z-index:50;background:var(--brown);opacity:0;pointer-events:none;transition:opacity .5s ease .7s}
+.opening .veil{opacity:1}
+
+@media (max-width:700px){
+ .sun{left:78%;top:20%;width:58vmin}
+ .rays,.glint{left:78%}
+ .rays{top:20%}
+ .birds{display:none}
+ .page{padding-bottom:calc(20vh + 40px)}
+ .sea{height:20vh}
+ .mid{padding-top:28px}
+ .row2{flex-direction:column}
+ button.go{justify-content:center;width:100%}
+ .gate{padding:18px 16px 14px;border-radius:22px}
+ .meta span{font-size:14px}
+}
+@media (max-height:760px) and (min-width:701px){
+ .mid{padding:20px 0 8px}
+ h1{font-size:clamp(54px,8.6vw,120px)}
+ .sub{margin-top:16px}.meta{margin-top:14px}.gate{margin-top:22px}
+}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main>
- <svg viewBox="0 0 120 120" width="88" height="88" aria-hidden="true"><circle cx="60" cy="60" r="55" fill="#FF5900" stroke="#F4EDE3" stroke-width="9"/><line x1="60" y1="60" x2="60" y2="18" stroke="#F4EDE3" stroke-width="7" stroke-linecap="round"/><line x1="60" y1="60" x2="84" y2="74" stroke="#F4EDE3" stroke-width="9" stroke-linecap="round"/><circle cx="60" cy="60" r="6" fill="#F4EDE3"/></svg>
- <h1>Off the Clock</h1>
- <p>A private proposal for talabat's year-end at Nikki Beach Dubai.</p>
- <form id="f">
-  <label for="code">Access code</label>
-  <input id="code" name="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required>
-  <div class="err" id="err" role="alert"></div>
-  <button id="go" type="submit">Open the proposal</button>
- </form>
- <small>Prepared for talabat UAE by notion. Confidential.</small>
-</main>
+<div class="sky" aria-hidden="true">
+ <div class="rays"></div>
+ <div class="sun"></div>
+ <div class="birds" id="birds"></div>
+ <div class="sea"><div class="wv"><i></i><i></i></div><div class="glint"></div></div>
+</div>
+<div class="page">
+ <div class="top"><img class="t" src="data:image/png;base64,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" alt="talabat"><span aria-hidden="true">×</span><img class="n" src="data:image/png;base64,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" alt="notion"></div>
+ <main class="mid">
+  <span class="eyebrow"><i aria-hidden="true"></i>Private proposal</span>
+  <h1 aria-label="Off the Clock"><span class="row" aria-hidden="true"><svg class="clock" viewBox="0 0 120 120"><circle cx="60" cy="60" r="55" fill="#FF5900" stroke="#411517" stroke-width="9"/><g id="ticks"></g><line class="hand" id="hh" x1="60" y1="60" x2="60" y2="32" stroke-width="9"/><line class="hand" id="mh" x1="60" y1="60" x2="60" y2="18" stroke-width="7"/><circle cx="60" cy="60" r="6" fill="#411517"/></svg>ff the</span><span class="row r2" aria-hidden="true">Clock</span></h1>
+  <p class="sub">A private proposal for Talabat End of Year Event at Nikki Beach Dubai.</p>
+  <div class="meta">
+   <span><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Friday 11 December</span>
+   <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>16:00 to 23:30</span>
+   <span><svg viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Nikki Beach Dubai</span>
+  </div>
+  <form class="gate" id="f" novalidate>
+   <label for="code">Enter your access code</label>
+   <div class="row2">
+    <div class="field">
+     <input id="code" name="code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Access code" aria-describedby="err" required>
+     <button type="button" class="eye" id="eye" aria-label="Show code" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    </div>
+    <button class="go" id="go" type="submit"><span id="golabel">Open the proposal</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></button>
+   </div>
+   <div class="err" id="err" role="alert"></div>
+   <p class="note">Use the code we sent you with this link.</p>
+  </form>
+ </main>
+</div>
+<footer>Prepared for talabat UAE by notion. Confidential.</footer>
+<div class="veil" aria-hidden="true"></div>
 <script>
+{
 const ITER = 310000;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = s => document.querySelector(s);
+
+/* clock: spins on arrival, stops at 4:00 */
+const t = $('#ticks');
+for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6, r1 = i % 3 ? 44 : 40;
+  t.insertAdjacentHTML('beforeend', `<line x1="${60 + r1 * Math.sin(a)}" y1="${60 - r1 * Math.cos(a)}" x2="${60 + 48 * Math.sin(a)}" y2="${60 - 48 * Math.cos(a)}" stroke="#411517" stroke-width="5" stroke-linecap="round"/>`); }
+const hh = $('#hh'), mh = $('#mh');
+const setT = m => { mh.style.transform = `rotate(${m * 6}deg)`; hh.style.transform = `rotate(${m / 2}deg)`; };
+let cur = 240;
+function spinTo(end, dur){ const start = cur, t0 = performance.now();
+  return new Promise(res => { if (reduce) { setT(cur = end); return res(); }
+    (function step(now){ const k = Math.min(1, (now - t0) / dur), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      setT(cur = start + (end - start) * e); if (k < 1) requestAnimationFrame(step); else res(); })(t0); }); }
+cur = 610; setT(cur); spinTo(240 + 720 * 6, 2600).then(() => { cur = 240; setT(240); });
+
+/* birds */
+const bird = '<svg viewBox="0 0 34 14"><path d="M1 10 Q9 1 17 9 Q25 1 33 10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>';
+$('#birds').innerHTML = [[10,0,24],[34,-8,22],[64,-15,28],[22,-18,20]].map(([y,d,s]) => bird.replace('<svg ', `<svg style="top:${y}%;animation-delay:${d}s;animation-duration:${s}s" `)).join('');
+
+/* unlock */
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 let payload = null;
 async function getPayload(){ if (!payload) { const r = await fetch('site.bin', {cache: 'no-store'}); if (!r.ok) throw new Error('load'); payload = b64((await r.text()).trim()); } return payload; }
-async function open_(code){
+async function decrypt(code){
   const d = await getPayload(), salt = d.slice(0, 16), iv = d.slice(16, 28), ct = d.slice(28);
   const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(code), 'PBKDF2', false, ['deriveKey']);
   const key = await crypto.subtle.deriveKey({name: 'PBKDF2', salt, iterations: ITER, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
-  const html = new TextDecoder().decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv}, key, ct));
-  try { sessionStorage.setItem('otc', code); } catch (e) {}
-  document.open(); document.write(html); document.close();
+  return new TextDecoder().decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv}, key, ct));
 }
-const f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
+function show(html){ document.open(); document.write(html); document.close(); }
+const f = $('#f'), err = $('#err'), go = $('#go'), label = $('#golabel'), input = $('#code');
 f.addEventListener('submit', async e => {
-  e.preventDefault(); err.textContent = ''; go.disabled = true; go.textContent = 'Opening';
-  try { await open_(document.getElementById('code').value.trim()); }
-  catch (x) { go.disabled = false; go.textContent = 'Open the proposal';
-    err.textContent = x.message === 'load' ? 'The proposal could not load. Check your connection and try again.' : 'That code didn\'t work. Check the code we sent you and try again.'; }
+  e.preventDefault(); err.textContent = '';
+  const code = input.value.trim();
+  if (!code) { err.textContent = 'Enter the access code we sent you.'; f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); input.focus(); return; }
+  go.disabled = true; label.textContent = 'Opening';
+  const spinning = spinTo(cur + 360 * 3, 1400);
+  try {
+    const html = await decrypt(code);
+    try { sessionStorage.setItem('otc', code); } catch (x) {}
+    document.body.classList.add('opening');
+    await Promise.all([spinning, new Promise(r => setTimeout(r, reduce ? 0 : 1250))]);
+    show(html);
+  } catch (x) {
+    await spinning; spinTo(240 + Math.ceil(cur / 720) * 720, 500);
+    go.disabled = false; label.textContent = 'Open the proposal';
+    err.textContent = x.message === 'load' ? 'The proposal could not load. Check your connection and try again.' : 'That code didn\'t work. Check the code we sent you and try again.';
+    f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); input.select();
+  }
 });
-document.getElementById('code').addEventListener('input', () => { err.textContent = ''; });
-(async () => { let c = null; try { c = sessionStorage.getItem('otc'); } catch (e) {} if (c) { try { await open_(c); } catch (e) {} } })();
+input.addEventListener('input', () => { err.textContent = ''; });
+$('#eye').addEventListener('click', () => { const on = input.type === 'password'; input.type = on ? 'text' : 'password';
+  $('#eye').setAttribute('aria-pressed', on); $('#eye').setAttribute('aria-label', on ? 'Hide code' : 'Show code'); input.focus(); });
+(async () => { let c = null; try { c = sessionStorage.getItem('otc'); } catch (x) {} if (c) { try { show(await decrypt(c)); } catch (x) {} } })();
+}
 </script>
 </body>
 </html>
